@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Undangan Pernikahan - Romeo & Juliet</title>
+    <!-- Menggunakan Tailwind CSS untuk Desain Instan -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        .font-latin { font-family: 'Great Vibes', cursive; }
+        .font-sans { font-family: 'Poppins', sans-serif; }
+        body { background-color: #fcf9f2; }
+    </style>
+</head>
+<body class="font-sans text-gray-800 flex items-center justify-center min-h-screen relative overflow-hidden">
+    
+    <!-- Background Bunga/Hiasan -->
+    <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/floral-motif.png');"></div>
+
+    <div class="z-10 bg-white p-8 md:p-12 rounded-3xl shadow-2xl text-center max-w-md w-11/12 border border-gray-100">
+        <p class="text-sm uppercase tracking-widest text-gray-500 mb-4">Undangan Pernikahan</p>
+        
+        <h1 class="font-latin text-5xl md:text-6xl text-[#b68c5a] mb-2">Romeo & Juliet</h1>
+        
+        <p class="text-sm text-gray-500 mb-8">Minggu, 12 Desember 2024</p>
+
+        <div class="bg-[#fcf9f2] p-6 rounded-2xl mb-8 border border-[#eedcbd]">
+            <p class="text-sm text-gray-600 mb-2">Kepada Yth. Bapak/Ibu/Saudara/i,</p>
+            <!-- Di sinilah nama tamu akan muncul -->
+            <h2 id="nama-tamu" class="text-2xl font-semibold text-gray-800 mb-2 mt-2">Tamu Spesial</h2>
+            <p class="text-xs text-gray-500">*Mohon maaf bila ada kesalahan penulisan nama/gelar</p>
+        </div>
+
+        <button onclick="bukaUndangan()" class="bg-[#b68c5a] hover:bg-[#9a7346] text-white px-8 py-3 rounded-full shadow-lg transition duration-300 font-medium w-full">
+            Buka Undangan
+        </button>
+    </div>
+
+    <!-- Script untuk mengambil nama dari Link -->
+    <script>
+        // Mengambil parameter dari URL
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        
+        // Mengambil nilai "to" dari link (contoh: ?to=Vikriana)
+        const guestName = urlParams.get('to');
+
+        // Jika ada nama di link, ganti teks "Tamu Spesial" dengan nama tersebut
+        if (guestName) {
+            document.getElementById('nama-tamu').innerText = guestName;
+        }
+
+        // Fungsi tombol buka undangan
+        function bukaUndangan() {
+            alert("Ini bisa diarahkan ke halaman isi undangan selanjutnya!");
+            // kode untuk pindah halaman: window.location.href = "halaman-selanjutnya.html";
+        }
+    </script>
+</body>
+</html>
