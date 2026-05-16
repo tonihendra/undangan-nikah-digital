@@ -3,59 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Undangan Pernikahan - Romeo & Juliet</title>
-    <!-- Menggunakan Tailwind CSS untuk Desain Instan -->
+    <title>Undangan Pernikahan - Ibnu & Juliet</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500&display=swap" rel="stylesheet">
+    
     <style>
-        .font-latin { font-family: 'Great Vibes', cursive; }
-        .font-sans { font-family: 'Poppins', sans-serif; }
-        body { background-color: #fcf9f2; }
+        .font-serif-gold { font-family: 'Playfair Display', serif; }
+        .font-sans-clean { font-family: 'Montserrat', sans-serif; }
+        
+        body { background-color: #e5e7eb; display: flex; justify-content: center; } 
+        
+        /* Container menyerupai layar HP */
+        .mobile-wrapper {
+            width: 100%;
+            max-width: 420px;
+            background: #fdfaf1;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.15);
+            overflow-x: hidden;
+        }
+
+        /* Background Pattern Sampul */
+        .bg-pattern {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/arabesque.png');
+            opacity: 0.15;
+            z-index: 1; pointer-events: none;
+        }
+
+        /* Animasi Sampul Menghilang */
+        .slide-up { 
+            transform: translateY(-100%); 
+            transition: transform 1.2s cubic-bezier(0.77, 0, 0.175, 1); 
+        }
+
+        /* Gradient elegan untuk background cover */
+        .bg-cover-gradient { background: linear-gradient(to bottom, #f3edd8, #fdfaf1); }
+    /* Animasi Detak Jantung Halus untuk Splash Screen */
+        @keyframes heartbeat {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.15); opacity: 0.8; }
+        }
+        .animate-heartbeat { 
+            animation: heartbeat 1.5s infinite ease-in-out; 
+        }
     </style>
 </head>
-<body class="font-sans text-gray-800 flex items-center justify-center min-h-screen relative overflow-hidden">
-    
-    <!-- Background Bunga/Hiasan -->
-    <div class="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/floral-motif.png');"></div>
+<body class="font-sans-clean text-gray-800 antialiased">
 
-    <div class="z-10 bg-white p-8 md:p-12 rounded-3xl shadow-2xl text-center max-w-md w-11/12 border border-gray-100">
-        <p class="text-sm uppercase tracking-widest text-gray-500 mb-4">Undangan Pernikahan</p>
-        
-        <h1 class="font-latin text-5xl md:text-6xl text-[#b68c5a] mb-2">Romeo & Juliet</h1>
-        
-        <p class="text-sm text-gray-500 mb-8">Minggu, 12 Desember 2024</p>
+    <div class="mobile-wrapper">
+                <!-- ==================== 0. SPLASH SCREEN (Hati Pink) ==================== -->
+        <!-- z-[100] memastikan dia menutupi semua elemen lain -->
+        <div id="splash-screen" class="absolute top-0 left-0 w-full h-full bg-[#fdfaf1] z-[100] flex flex-col items-center justify-center transition-opacity duration-1000">
+            
+            <!-- Ikon Hati dengan warna Pink Halus (#fbcfe8 = pink-200) dan efek detak jantung -->
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-24 w-24 text-pink-300 animate-heartbeat drop-shadow-md" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+            </svg>
+            
+            <p class="text-pink-300/80 mt-6 text-[10px] tracking-[0.3em] uppercase font-sans-clean animate-pulse">
+                Membuka Undangan...
+            </p>
+        </div>
+        <!-- ==================== FILE MUSIK ==================== -->
+        <!-- Nanti ganti src ini dengan 'image/lagu.mp3' milik Anda -->
+        <audio id="lagu-bg" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+        </audio>
 
-        <div class="bg-[#fcf9f2] p-6 rounded-2xl mb-8 border border-[#eedcbd]">
-            <p class="text-sm text-gray-600 mb-2">Kepada Yth. Bapak/Ibu/Saudara/i,</p>
-            <!-- Di sinilah nama tamu akan muncul -->
-            <h2 id="nama-tamu" class="text-2xl font-semibold text-gray-800 mb-2 mt-2">Tamu Spesial</h2>
-            <p class="text-xs text-gray-500">*Mohon maaf bila ada kesalahan penulisan nama/gelar</p>
+        <!-- ==================== 1. SAMPUL DEPAN (COVER) ==================== -->
+        <div id="cover-page" class="absolute top-0 left-0 w-full h-full bg-cover-gradient z-50 flex flex-col items-center pb-10">
+            <div class="bg-pattern"></div>
+
+            <div class="z-10 w-full text-center pt-16 relative">
+                <p class="text-[#7c8b9d] text-[10px] tracking-[0.25em] font-semibold mb-4 uppercase">
+                    Wedding Invitation
+                </p>
+                <h1 class="font-serif-gold text-5xl text-[#b68c37] mb-2 tracking-wide">
+                    Ibnu & Juliet
+                </h1>
+            </div>
+
+             <!-- Bagian Foto & Bingkai (Dengan Ukuran Pasti) -->
+            <!-- Container kita buat kotak ukuran 300x300 sebagai kanvas -->
+            <div class="relative w-[300px] h-[300px] mx-auto flex justify-center items-center z-10 mt-2 mb-2">
+                
+                <!-- 1. FOTO PASANGAN (Ukurannya kita perkecil drastis jadi 130x180) -->
+                <!-- rounded-[50%] membuatnya jadi bentuk oval -->
+                <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                     alt="Couple" 
+                     class="absolute w-[130px] h-[180px] object-cover rounded-[50%] z-0">
+                
+                <!-- 2. BINGKAI EMAS (Kita buat penuhi kanvas dan di-Zoom) -->
+                <!-- scale-125 berfungsi men-zoom bingkai agar emasnya membesar menutupi tepi foto -->
+                <img src="image/bingkai-asli.png" 
+                     alt="Frame" 
+                     class="absolute w-full h-full object-contain drop-shadow-2xl pointer-events-none z-10 scale-125">
+                     
+            </div>
+            <!-- ================= SAMPAI SINI ================= -->
+
+            <!-- Kotak Nama Tamu -->
+            <div class="z-20 bg-white/70 backdrop-blur-md w-10/12 rounded-[30px] p-6 text-center shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-white/50 -mt-8 relative">
+                <p class="text-[#9e988a] text-[9px] tracking-[0.2em] leading-relaxed mb-3 uppercase font-medium">
+                    Kepada Yth.<br>Bapak/Ibu/Saudara/i:
+                </p>
+                <!-- Nama yang akan berubah sesuai link -->
+                <h2 id="nama-tamu" class="font-serif-gold text-3xl text-[#b68c37]">Tamu Spesial</h2>
+            </div>
+
+            <!-- Tombol Buka Undangan -->
+            <div class="z-20 w-10/12 mt-8 flex flex-col gap-4">
+                <button onclick="bukaUndangan()" class="w-full bg-[#e8d5b5] text-[#5c4a30] rounded-full py-4 px-6 text-[12px] font-bold tracking-[0.15em] flex items-center justify-center gap-2 shadow-md hover:bg-[#dfc8a0] transition animate-pulse">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 19v-8.93a2 2 0 01.89-1.664l7-4.666a2 2 0 012.22 0l7 4.666A2 2 0 0121 10.07V19M14 8.664L12 7.332l-2 1.332M14 8.664v3.332m0 0h-4m4 0l-2 1.332m-2-1.332v-3.332" />
+                    </svg>
+                    BUKA UNDANGAN
+                </button>
+            </div>
+            
+            <p class="z-20 text-[#7c8b9d] text-[11px] tracking-[0.2em] mt-8">#KiNibersama</p>
         </div>
 
-        <button onclick="bukaUndangan()" class="bg-[#b68c5a] hover:bg-[#9a7346] text-white px-8 py-3 rounded-full shadow-lg transition duration-300 font-medium w-full">
-            Buka Undangan
+
+        <!-- ==================== 2. ISI UNDANGAN UTAMA ==================== -->
+        <!-- Bagian ini tersembunyi di awal, muncul setelah tombol diklik -->
+        <div id="main-content" class="hidden w-full min-h-screen pb-24 pt-10 relative">
+            <div class="bg-pattern opacity-5"></div> 
+
+            <!-- Mempelai -->
+            <section class="text-center px-6 py-10 relative z-10">
+                <p class="text-[#9e988a] text-[10px] tracking-[0.2em] uppercase mb-4">Maha Suci Allah yang telah menciptakan makhluk-Nya berpasang-pasangan.</p>
+                
+                <!-- Foto Mempelai Pria -->
+                <div class="mt-8">
+                    <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Groom" class="w-32 h-32 object-cover rounded-full mx-auto border-4 border-[#e8d5b5] shadow-lg mb-4">
+                    <h3 class="font-serif-gold text-3xl text-[#b68c37]">Ibnu Rizka, S.Kom</h3>
+                    <p class="text-xs text-gray-500 mt-2">Putra dari Bpk. Fulan & Ibu Fulanah</p>
+                </div>
+
+                <p class="font-serif-gold text-5xl text-[#e8d5b5] my-6">&</p>
+
+                <!-- Foto Mempelai Wanita -->
+                <div>
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80" alt="Bride" class="w-32 h-32 object-cover rounded-full mx-auto border-4 border-[#e8d5b5] shadow-lg mb-4">
+                    <h3 class="font-serif-gold text-3xl text-[#b68c37]">Juliet</h3>
+                    <p class="text-xs text-gray-500 mt-2">Putri dari Bpk. Fulan & Ibu Fulanah</p>
+                </div>
+            </section>
+
+            <!-- Galeri Pre-Wedding -->
+            <section class="bg-white/60 py-12 px-4 relative z-10">
+                <div class="text-center mb-8">
+                    <h2 class="font-serif-gold text-4xl text-[#b68c37]">Galeri Cinta</h2>
+                    <p class="text-[10px] text-gray-400 tracking-widest uppercase mt-2">Momen Bahagia Kami</p>
+                </div>
+                
+                <!-- Ganti link dengan 'image/prewed1.jpg' dst -->
+                <div class="grid grid-cols-2 gap-3">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=400&q=80" class="w-full h-40 object-cover rounded-xl shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" class="w-full h-40 object-cover rounded-xl shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1520854221256-17451cc331bf?auto=format&fit=crop&w=400&q=80" class="w-full h-40 object-cover rounded-xl shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1606800052052-a08af7148866?auto=format&fit=crop&w=400&q=80" class="w-full h-40 object-cover rounded-xl shadow-sm">
+                </div>
+            </section>
+
+            <!-- Waktu & Lokasi (Maps) -->
+            <section class="py-12 px-6 relative z-10 text-center">
+                <h2 class="font-serif-gold text-4xl text-[#b68c37] mb-8">Waktu & Lokasi</h2>
+                
+                <div class="bg-white p-6 rounded-[20px] shadow-lg border border-[#f3edd8] mb-6">
+                    <h3 class="font-bold text-gray-800 text-lg mb-1 tracking-wide">Resepsi Pernikahan</h3>
+                    <p class="text-gray-600 text-sm mb-1">Minggu, 12 Desember 2024</p>
+                    <p class="text-gray-600 text-sm mb-6">Pukul 10.00 WIB - Selesai</p>
+                    
+                    <div class="h-[1px] w-1/2 bg-[#e8d5b5] mx-auto mb-6"></div>
+                    
+                    <p class="font-semibold text-gray-800 mb-1">Aula Lantai 3</p>
+                    <p class="text-xs text-gray-500 mb-6 leading-relaxed">Jl.Ajibarang Km 1</p>
+                    
+                    <!-- PETA GOOGLE MAPS -->
+                    <div class="w-full h-48 rounded-xl overflow-hidden shadow-inner mb-5 border border-gray-100">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126917.16515830954!2d106.74108848419683!3d-6.241031343758416!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f3e945e34b9d%3A0x100c5e82dd4b820!2sJakarta%20Selatan%2C%20Kota%20Jakarta%20Selatan!5e0!3m2!1sid!2sid!4v1714545800000!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                    
+                    <a href="https://maps.app.goo.gl/..." target="_blank" class="inline-block w-full bg-[#b68c37] text-white py-3 rounded-full text-xs font-bold tracking-widest shadow-md hover:bg-[#9a742b] transition">
+                        BUKA GOOGLE MAPS
+                    </a>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tombol Play/Pause Musik Melayang -->
+        <button id="btn-musik" onclick="toggleMusik()" class="absolute bottom-6 right-6 bg-[#b68c37] text-white p-3.5 rounded-full shadow-[0_4px_15px_rgba(182,140,55,0.4)] z-50 animate-bounce hidden fixed">
+            <svg id="icon-musik" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M18 3a1 1 0 00-1.196-.98l-10 2A1 1 0 006 5v9.114A4.369 4.369 0 005 14c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V7.82l8-1.6v5.894A4.37 4.37 0 0015 12c-1.657 0-3 .895-3 2s1.343 2 3 2 3-.895 3-2V3z" />
+            </svg>
         </button>
+
     </div>
 
-    <!-- Script untuk mengambil nama dari Link -->
+    <!-- ==================== SCRIPT JAVASCRIPT ==================== -->
     <script>
-        // Mengambil parameter dari URL
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        
-        // Mengambil nilai "to" dari link (contoh: ?to=Vikriana)
+                // --- Fungsi Splash Screen ---
+        // Menunggu seluruh halaman dimuat
+        window.addEventListener('load', () => {
+            const splash = document.getElementById('splash-screen');
+            
+            // Beri waktu 2.5 detik untuk menampilkan hati pink
+            setTimeout(() => {
+                // Efek memudar (fade out)
+                splash.classList.add('opacity-0');
+                
+                // Hapus sepenuhnya setelah efek pudar selesai (1 detik)
+                setTimeout(() => {
+                    splash.style.display = 'none';
+                }, 1000);
+                
+            }, 2500); // 2500 = 2.5 detik
+        });
+        // 1. Ganti Nama Tamu Otomatis dari Link URL
+        const urlParams = new URLSearchParams(window.location.search);
         const guestName = urlParams.get('to');
-
-        // Jika ada nama di link, ganti teks "Tamu Spesial" dengan nama tersebut
         if (guestName) {
             document.getElementById('nama-tamu').innerText = guestName;
         }
 
-        // Fungsi tombol buka undangan
+        // 2. Fungsi Tombol "Buka Undangan" (Animasi Cover ke Atas & Putar Musik)
+        const laguBg = document.getElementById('lagu-bg');
+        let isPlaying = false;
+
         function bukaUndangan() {
-            alert("Ini bisa diarahkan ke halaman isi undangan selanjutnya!");
-            // kode untuk pindah halaman: window.location.href = "halaman-selanjutnya.html";
+            // Tampilkan isi undangan dan tombol musik
+            document.getElementById('main-content').classList.remove('hidden');
+            document.getElementById('btn-musik').classList.remove('hidden');
+            
+            // Berikan efek cover naik ke atas
+            const cover = document.getElementById('cover-page');
+            cover.classList.add('slide-up');
+
+            // Hapus cover sepenuhnya setelah animasi selesai agar tidak nutupin scroll
+            setTimeout(() => {
+                cover.style.display = 'none';
+            }, 1200);
+
+            // Putar Musik
+            laguBg.play().then(() => {
+                isPlaying = true;
+            }).catch(error => {
+                console.log("Browser memblokir auto-play musik, tamu harus klik tombol musik manual.");
+            });
+        }
+
+        // 3. Fungsi Tombol Nyala/Mati Musik
+        function toggleMusik() {
+            const btn = document.getElementById('btn-musik');
+            if (isPlaying) {
+                laguBg.pause();
+                btn.classList.add('opacity-50'); 
+                btn.classList.remove('animate-bounce');
+            } else {
+                laguBg.play();
+                btn.classList.remove('opacity-50');
+                btn.classList.add('animate-bounce');
+            }
+            isPlaying = !isPlaying;
         }
     </script>
 </body>
